@@ -89,4 +89,60 @@ getXML.onclick = () => {
         }
     };
     request.send()
+};
+
+
+
+
+
+
+
+
+//(5)请求JSON
+getJSON.onclick = () => {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/5.json')
+
+    request.onreadystatechange = () => {
+        if (request.status === 200 && request.readyState === 4) {
+            console.log('success')
+            console.log(request.response)
+
+            //将符合JSON的字符串变成对应的对象
+            const object = JSON.parse(request.response)
+
+            myName.textContent = object.name
+
+            console.log(object)
+
+        }
+    };
+    request.send()
+};
+
+
+
+//(6)请求分页
+let n = 1;
+getHEJIAJIN.onclick = () => {
+    const request = new XMLHttpRequest();
+    // hejiajin have more
+
+    request.open("GET", `/hejiajin${n + 1}`);
+
+    request.onreadystatechange = () => {
+
+        if (request.readyState === 4 && request.status === 200) {
+            const array = JSON.parse(request.response)
+            array.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item.id;
+                console.log('fuck')
+                caokun.appendChild(li);
+            });
+            n += 1; //请求成功了 就加1
+        }
+    };
+    request.send()
+
 }

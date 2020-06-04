@@ -21,21 +21,19 @@ var server = http.createServer(function(request, response) {
 
     console.log('有个傻子发请求过来啦！路径（带查询参数）为：' + pathWithQuery)
 
-    if (path === '/html') {
-        response.statusCode = 200
-        response.setHeader('Content-Type', 'text/html;charset=utf-8')
-            //let string = fs.readFileSync('public/index.html').toString()
-            //const page1 = fs.readFileSync('db/page1.json').toString()
-            //const array = JSON.parse(page1)
-            // const result = array.map(item => `<li>${item.id}</li>`).join('')
-        string = string.replace('{{page1}}', `<ul id="xxx">${result}</ul>`)
-        response.write(string)
-        response.end()
-            //路由
-    } else if (path === '/index.html') {
+
+    //路由
+    if (path === '/index.html') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/html;charset=utf-8')
         let string = fs.readFileSync('public/index.html').toString()
+
+        //获取hejiajin1里的JSON
+        const hejiajin1 = fs.readFileSync('db/hejiajin1.json').toString()
+        const array = JSON.parse(hejiajin1)
+        const result = array.map(item => `<li>${item.id}</li>`).join('')
+        string = string.replace('{{hejiajin1}}', `<ul id = "caokun">${result}</ul>`)
+
         response.write(string)
         response.end()
 
@@ -67,15 +65,7 @@ var server = http.createServer(function(request, response) {
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
         response.write(`body{color:red}`)
         response.end()
-    }
-
-    /*else if (path === '/main.js') {
-           response.statusCode = 200
-           response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
-           response.write(fs.readFileSync('public/main.js'))
-           response.end()
-       }*/
-    else if (path === '/style.css' || path === '/2.css') {
+    } else if (path === '/style.css' || path === '/2.css') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
         response.write(fs.readFileSync('public/style.css'))
@@ -100,15 +90,15 @@ var server = http.createServer(function(request, response) {
         response.setHeader('Content-Type', 'text/json;charset=utf-8')
         response.write(fs.readFileSync('public/5.json'))
         response.end()
-    } else if (path === '/page2') {
+    } else if (path === '/hejiajin2') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/json;charset=utf-8')
-        response.write(fs.readFileSync('db/page2.json'))
+        response.write(fs.readFileSync('db/hejiajin2.json'))
         response.end()
-    } else if (path === '/page3') {
+    } else if (path === '/hejiajin3') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/json;charset=utf-8')
-        response.write(fs.readFileSync('db/page3.json'))
+        response.write(fs.readFileSync('db/hejiajin3.json'))
         response.end()
     } else {
         response.statusCode = 404
